@@ -24,7 +24,11 @@ module.exports = function(app) {
 		Todo.create({
 			text : req.body.text,
 			query : req.body.query,
-			done : false
+			done : false,
+			titleScores: ["a"],
+			urlScores: ["url1: u1", "url2: u2"],
+			sizeScores: ["title1: abc", "title2: def", "title3: ghi"],
+			
 		}, function(err, todo) {
 			if (err)
 				res.send(err);
