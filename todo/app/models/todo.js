@@ -5,6 +5,5 @@ module.exports = mongoose.model('Todo', {
 	query : String,
 	done : Boolean,
 	titleScores : [],
-	sizeScores : [],
-	urlScores: []
+	sizeScores : []
 });
