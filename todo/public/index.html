@@ -11,6 +11,7 @@
 
 	<!-- SCROLLS -->
 	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css"><!-- load bootstrap -->
+	<link rel="stylesheet" href="styles.css">
 	<style>
 		html 					{ overflow-y:scroll; }
 		body 					{ padding-top:50px; }
@@ -29,7 +30,7 @@
 
 		<!-- HEADER AND TODO COUNT -->
 		<div class="jumbotron text-center">
-			<h1>I'm a Todo-aholic <span class="label label-info">{{ todos.length }}</span></h1>
+			<h1>THE INFORMATION HUB OF GLORY <span class="label label-info">{{ todos.length }}</span></h1>
 		</div>
 
 		<!-- TODO LIST -->
@@ -39,7 +40,7 @@
 				<!-- LOOP OVER THE TODOS IN $scope.todos -->
 				<div class="checkbox" ng-repeat="todo in todos">
 					<label>
-						<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }} Cat: {{ todo.cat }}
+						<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }} query: {{ todo.query }}
 					</label>
 				</div>
 
@@ -53,27 +54,31 @@
 					<div class="form-group" ng-repeat="todo in todos">
 						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
 						<input type="text" class="form-control input-lg text-center" placeholder="{{ todo.text }}" ng-model="formData.text">
-						<select name="select" class="form-control input-lg text-center" ng-model="formData.cat">
-							<option value="" disabled selected>{{todo.cat}}</option>
-							<option name="select" value="1">1</option>
-							<option name="select" value="2">2</option>
-							<option name="select" value="3">3</option>
-							<option name="select" value="4">4</option>
-							<option name="select" value="5">5</option>
+						<select name="select" class="form-control input-lg text-center" ng-model="formData.query">
+							<option value="" disabled selected>{{todo.query}}</option>
+							<option name="select" value="1">Technology</option>
+							<option name="select" value="2">Gadgets</option>
+							<option name="select" value="3">Finance</option>
+							<option name="select" value="4">Gaming</option>
+							<option name="select" value="5">Cloud Computing</option>
+							<option name="select" value="6">Hacking</option>
+							<option name="select" value="7">General News</option>
+							<option name="select" value="8">Science</option>
+							<option name="select" value="9">Apple</option>
+							<option name="select" value="10">Android</option>
 						</select>
+						<div style="font-size:20px;font-family:calibri">Favourite this!
+						<span class="glyphicon glyphicon-heart lg" aria-hidden="true" ng-click="addToFav()"></span></div>
 					</div>
 
 					<!-- createToDo() WILL CREATE NEW TODOS -->
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="addTodo()">Add</button>
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Submit</button>
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="addTodo()">Add Row</button>
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Submit Current Data</button>
+					<button type="submit" class="btn btn-primary btn-lg" >Favourites</button>
+					<button type="submit" class="btn btn-primary btn-lg" >Visited/Clicked && Array URLS</button>
 					
 				</form>
 			</div>
-		</div>
-
-		<div class="text-center text-muted">
-			<p>A demo by <a href="http://scotch.io">Scotch</a>.</p>
-			<p>Read the <a href="http://scotch.io/tutorials/javascript/creating-a-single-page-todo-app-with-node-and-angular">tutorial</a>.</p>
 		</div>
 
 	</div>

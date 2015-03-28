@@ -1,0 +1,7 @@
+.glyphicon {
+    font-size: 30px;
+}
+
+.glyphicon:hover{
+	color: red;
+}

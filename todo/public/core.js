@@ -2,6 +2,10 @@ var scotchTodo = angular.module('scotchTodo', []);
 
 function mainController($scope, $http) {
 	$scope.formData = {};
+	$scope.favs = false;
+	//$scope.titleScore = [];
+	//$scope.sizeScore = [];
+	//$scope.urlScore = [];
 
 	// when landing on the page, get all todos and show them
 	$http.get('/api/todos')
@@ -37,7 +41,11 @@ function mainController($scope, $http) {
 	};
 	
 	$scope.addTodo = function(id) {
-		$scope.todos.push({text:'',cat:''});
+		$scope.todos.push({text:'',query:''});
 	};
+	
+	$scope.addToFav = function() {
+		$scope.favs = true;
+	}
 
 }
