@@ -50,21 +50,23 @@
 		<div id="todo-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
 				<form>
-					<div class="form-group">
-
+					<div class="form-group" ng-repeat="todo in todos">
 						<!-- BIND THIS VALUE TO formData.text IN ANGULAR -->
-						<input type="text" class="form-control input-lg text-center" placeholder="I want to buy a puppy that will love me forever" ng-model="formData.text">
-						<select name="select" class="form-control input-lg text-center" placeholder="cat" ng-model="formData2.text">
-							<option name="select" value="1" ng-model="formData2.text">1</option>
-							<option name="select" value="2" ng-model="formData2.text">2</option>
-							<option name="select" value="3" ng-model="formData2.text">3</option>
-							<option name="select" value="4" ng-model="formData2.text">4</option>
-							<option name="select" value="5" ng-model="formData2.text">5</option>
+						<input type="text" class="form-control input-lg text-center" placeholder="{{ todo.text }}" ng-model="formData.text">
+						<select name="select" class="form-control input-lg text-center" ng-model="formData.cat">
+							<option value="" disabled selected>{{todo.cat}}</option>
+							<option name="select" value="1">1</option>
+							<option name="select" value="2">2</option>
+							<option name="select" value="3">3</option>
+							<option name="select" value="4">4</option>
+							<option name="select" value="5">5</option>
 						</select>
 					</div>
 
 					<!-- createToDo() WILL CREATE NEW TODOS -->
-					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Add</button>
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="addTodo()">Add</button>
+					<button type="submit" class="btn btn-primary btn-lg" ng-click="createTodo()">Submit</button>
+					
 				</form>
 			</div>
 		</div>
