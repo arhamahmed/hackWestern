@@ -1,23 +1,29 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.Scanner;
 
 import com.leapmotion.leap.*;
 
-public class main {
+public class Main {
 	
-	//static Controller controller = new Controller();
-    //static LeapEventListener listener = new LeapEventListener();
+	static Controller controller = new Controller();
+    static LeapEventListener listener = new LeapEventListener();
 	public static void main(String[] args) {
         
 		LeapEventListener listener = new LeapEventListener();
         Controller controller = new Controller();
 
-        // Have the sample listener receive events from the controller
         controller.addListener(listener);
 
-        // Keep this process running until Enter is pressed
-        System.out.println("Press Enter to quit...");
         int loop = 1;
+        File file = new File("machineLearning.txt"); //for ex foo.txt
         float[] s1 = {-8,4,(float) -1003.3,100,(float) -1007.5,100,100,(float) -1007.5,100,100,(float) -1007.5,100,100,(float) -1007.5,100};
         float[] s2 = {-4, (float) 8.5, 100,3, (float) 8.5, 100, 3,-9, 100,3,-9,100,0,(float) -9.5,100};
         float[] s3 = {5, 8, -5, 100,(float) 1008.5,100,100,(float) 1008.5,100,100,2007,100,100,2007,100};
@@ -34,6 +40,75 @@ public class main {
         float[] s17 = {(float) -7.8, 5, 100, -2, (float) 9.6, 100, 0, (float) 9.8, 100, 2, (float) 9.3, 100, (float) 7.8, (float) 4.8, 100};
         float[] s18 = {8, 100, -3, 8, 2, (float) -4.5, 6, 0, 100, (float) -9.5, 0, 0, -9, 100, 0};
         float[] s19 = {(float) -3.6, (float) -4.2, (float) -8.3, -2, (float) -5.6, -8, -1, -5, -8, 0, -5, -8, 6, -4, -7};
+        
+        String strPls= "";
+            try {
+            	BufferedReader br = new BufferedReader(new FileReader("machinelearning.txt"));
+                StringBuilder sb = new StringBuilder();
+                String line = br.readLine();
+
+                while (line != null) {
+                    sb.append(line);
+                    sb.append("\n");
+                    line = br.readLine();
+                }
+                br.close();
+                strPls= sb.toString();
+            String[] elems = strPls.split(" ");
+            s1 = new float[15];
+            for(int i=0;i<15;i++)
+            	s1[i]=Float.parseFloat(elems[i]);
+            s2 = new float[15];
+            for(int i=15;i<30;i++)
+            	s2[i-15]=Float.parseFloat(elems[i]);
+            s3 = new float[15];
+            for(int i=30;i<45;i++)
+            	s3[i-30]=Float.parseFloat(elems[i]);
+            s4 = new float[15];
+            for(int i=45;i<60;i++)
+            	s4[i-45]=Float.parseFloat(elems[i]);
+            s5 = new float[15];
+            for(int i=60;i<75;i++)
+            	s5[i-60]=Float.parseFloat(elems[i]);
+            s6 = new float[15];
+            for(int i=75;i<90;i++)
+            	s6[i-75]=Float.parseFloat(elems[i]);
+            s7 = new float[15];
+            for(int i=90;i<105;i++)
+            	s7[i-90]=Float.parseFloat(elems[i]);
+            s8 = new float[15];
+            for(int i=105;i<120;i++)
+            	s8[i-105]=Float.parseFloat(elems[i]);
+            s9 = new float[15];
+            for(int i=120;i<135;i++)
+            	s9[i-120]=Float.parseFloat(elems[i]);
+            s10 = new float[15];
+            for(int i=135;i<150;i++)
+            	s10[i-135]=Float.parseFloat(elems[i]);
+            s12 = new float[15];
+            for(int i=150;i<165;i++)
+            	s12[i-150]=Float.parseFloat(elems[i]);
+            s15 = new float[15];
+            for(int i=165;i<180;i++)
+            	s15[i-165]=Float.parseFloat(elems[i]);
+            s16 = new float[15];
+            for(int i=180;i<195;i++)
+            	s16[i-180]=Float.parseFloat(elems[i]);
+            s17 = new float[15];
+            for(int i=195;i<210;i++)
+            	s17[i-195]=Float.parseFloat(elems[i]);
+            s18 = new float[15];
+            for(int i=210;i<225;i++)
+            	s18[i-210]=Float.parseFloat(elems[i]);
+            s19 = new float[15];
+            for(int i=225;i<240;i++)
+            	s19[i-225]=Float.parseFloat(elems[i]);
+        }
+        catch (FileNotFoundException e) {
+                e.printStackTrace();
+        } catch (IOException e) {
+                e.printStackTrace();
+        }
         int count = 0;
         boolean again = true;
         while(again){
@@ -88,7 +163,40 @@ public class main {
             sums[15] = help(userHandDirections, s19);
             
             int min = getMinArray(sums);
-            ///*
+            
+            if(min==0)
+            	adjust(userHandDirections, s1);
+            else if(min==1)
+            	adjust(userHandDirections, s2);
+            else if(min==2)
+            	adjust(userHandDirections, s3);
+            else if(min==3)
+            	adjust(userHandDirections, s4);
+            else if(min==4)
+            	adjust(userHandDirections, s5);
+            else if(min==5)
+            	adjust(userHandDirections, s6);
+            else if(min==6)
+            	adjust(userHandDirections, s7);
+            else if(min==7)
+            	adjust(userHandDirections, s8);
+            else if(min==8)
+            	adjust(userHandDirections, s9);
+            else if(min==9)
+            	adjust(userHandDirections, s10);
+            else if(min==11)
+            	adjust(userHandDirections, s12);
+            else if(min==12)
+            	adjust(userHandDirections, s15);
+            else if(min==13)
+            	adjust(userHandDirections, s16);
+            else if(min==14)
+            	adjust(userHandDirections, s17);
+            else if(min==15)
+            	adjust(userHandDirections, s18);
+            else
+            	adjust(userHandDirections, s19);
+            /*
             System.out.println("start: " + sums[0]);
             System.out.println(sums[1]);
             System.out.println(sums[2]);
@@ -105,7 +213,53 @@ public class main {
             System.out.println(sums[13]);
             System.out.println(sums[14]);
             System.out.println(sums[15]);
-            System.out.println("THE HAND SIGN MATCHES PATTERN " + min);
+            System.out.println("THE HAND SIGN MATCHES PATTERN " + min);*/
+            
+            Writer writer = null;
+            try {
+                writer = new BufferedWriter(new OutputStreamWriter(
+                      new FileOutputStream("machineLearning.txt"), "utf-8"));
+                String str ="";
+                for(int i=0;i<15;i++)
+                	str+= s1[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s2[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s3[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s4[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s5[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s6[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s7[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s8[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s9[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s10[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s12[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s15[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s16[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s17[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s18[i] + " ";
+                for(int i=0;i<15;i++)
+                	str+= s19[i] + " ";
+                writer.write(str);
+            	System.out.println("meow");
+            } catch (IOException ex) {
+              // report
+            } finally {
+               try {writer.close();} catch (Exception ex) {}
+            }
+            
             count++;
             if(count==5){
             	count=0;
@@ -127,7 +281,9 @@ public class main {
         	controller.addListener(listener);
         	loop = 1;
         }
-        		
+        else
+        	loop =0;
+        	again=false;
         }
         // Remove the sample listener when done
         controller.removeListener(listener);
@@ -210,6 +366,15 @@ public class main {
 			}
 		}
 		return (float) sum;
+	}
+	
+	public static void adjust(float[] user, float[] baseVector){
+		for(int i=0;i<15;i++){
+			if(baseVector[i]==100)
+				baseVector[i]=user[i];
+			else
+				baseVector[i]=(baseVector[i]*100+user[i]*25)/125;
+		}
 	}
 }
 
