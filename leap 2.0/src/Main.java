@@ -12,7 +12,6 @@ import java.util.Scanner;
 import com.leapmotion.leap.*;
 
 public class Main {
-	
 	static Controller controller = new Controller();
     static LeapEventListener listener = new LeapEventListener();
 	public static void main(String[] args) {
@@ -23,6 +22,10 @@ public class Main {
         controller.addListener(listener);
 
         int loop = 1;
+        //> 2000 then LT
+        //b/w 1000^2000 then GT
+        //b/w -1000^-2000 then LT
+        //LT -20000 then GT
         File file = new File("machineLearning.txt"); //for ex foo.txt
         float[] s1 = {-8,4,(float) -1003.3,100,(float) -1007.5,100,100,(float) -1007.5,100,100,(float) -1007.5,100,100,(float) -1007.5,100};
         float[] s2 = {-4, (float) 8.5, 100,3, (float) 8.5, 100, 3,-9, 100,3,-9,100,0,(float) -9.5,100};
@@ -112,182 +115,170 @@ public class Main {
         int count = 0;
         boolean again = true;
         while(again){
-        while (loop == 1)
-        {
-            Frame frame = controller.frame();
-            HandList hands = frame.hands();
-            PointableList pointables = frame.pointables();
-            FingerList fingers = frame.fingers();
-            ToolList tools = frame.tools();
-            delay();
-            /*
-              System.out.println(pointables.get(0).direction().toString() + " - "
-            			     + pointables.get(1).direction().toString() + " - " +
-            			       pointables.get(2).direction().toString() + " - " +
-            			       pointables.get(3).direction().toString() + " - " +
-            			       pointables.get(4).direction().toString());
-            */
-            
-            //> 2000 then LT
-            //b/w 1000^2000 then GT
-            //b/w -1000^-2000 then LT
-            //LT -20000 then GT
-            
-            int j = 0;
-            float[] userHandDirections = new float[15];
-            for (int i = 0; i < 5; i++)
-            {
-        		userHandDirections[j] = pointables.get(i).direction().getX();
-        		userHandDirections[j+1] = pointables.get(i).direction().getY();
-        		userHandDirections[j+2] = pointables.get(i).direction().getZ();
-        		j += 3;
-            }
-            
-            float[] sums = new float[16];
-            
-            sums[0] = help(userHandDirections, s1);
-            sums[1] = help(userHandDirections, s2);
-            sums[2] = help(userHandDirections, s3);
-            sums[3] = help(userHandDirections, s4);
-            sums[4] = help(userHandDirections, s5);
-            sums[5] = help(userHandDirections, s6);
-            sums[6] = help(userHandDirections, s7);
-            sums[7] = help(userHandDirections, s8);
-            sums[8] = help(userHandDirections, s9);
-            sums[9] = help(userHandDirections, s10);
-            sums[10] = help(userHandDirections, s12);
-            sums[11] = help(userHandDirections, s15);
-            sums[12] = help(userHandDirections, s16);
-            sums[13] = help(userHandDirections, s17);
-            sums[14] = help(userHandDirections, s18);
-            sums[15] = help(userHandDirections, s19);
-            
-            int min = getMinArray(sums);
-            
-            if(min==0)
-            	adjust(userHandDirections, s1);
-            else if(min==1)
-            	adjust(userHandDirections, s2);
-            else if(min==2)
-            	adjust(userHandDirections, s3);
-            else if(min==3)
-            	adjust(userHandDirections, s4);
-            else if(min==4)
-            	adjust(userHandDirections, s5);
-            else if(min==5)
-            	adjust(userHandDirections, s6);
-            else if(min==6)
-            	adjust(userHandDirections, s7);
-            else if(min==7)
-            	adjust(userHandDirections, s8);
-            else if(min==8)
-            	adjust(userHandDirections, s9);
-            else if(min==9)
-            	adjust(userHandDirections, s10);
-            else if(min==11)
-            	adjust(userHandDirections, s12);
-            else if(min==12)
-            	adjust(userHandDirections, s15);
-            else if(min==13)
-            	adjust(userHandDirections, s16);
-            else if(min==14)
-            	adjust(userHandDirections, s17);
-            else if(min==15)
-            	adjust(userHandDirections, s18);
-            else
-            	adjust(userHandDirections, s19);
-            /*
-            System.out.println("start: " + sums[0]);
-            System.out.println(sums[1]);
-            System.out.println(sums[2]);
-            System.out.println(sums[3]);
-            System.out.println(sums[4]);
-            System.out.println(sums[5]);
-            System.out.println(sums[6]);
-            System.out.println(sums[7]);
-            System.out.println(sums[8]);
-            System.out.println(sums[9]);
-            System.out.println(sums[10]);
-            System.out.println(sums[11]);
-            System.out.println(sums[12]);
-            System.out.println(sums[13]);
-            System.out.println(sums[14]);
-            System.out.println(sums[15]);
-            System.out.println("THE HAND SIGN MATCHES PATTERN " + min);*/
-            
-            Writer writer = null;
-            try {
-                writer = new BufferedWriter(new OutputStreamWriter(
-                      new FileOutputStream("machineLearning.txt"), "utf-8"));
-                String str ="";
-                for(int i=0;i<15;i++)
-                	str+= s1[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s2[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s3[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s4[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s5[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s6[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s7[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s8[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s9[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s10[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s12[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s15[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s16[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s17[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s18[i] + " ";
-                for(int i=0;i<15;i++)
-                	str+= s19[i] + " ";
-                writer.write(str);
-            	System.out.println("meow");
-            } catch (IOException ex) {
-              // report
-            } finally {
-               try {writer.close();} catch (Exception ex) {}
-            }
-            
-            count++;
-            if(count==5){
-            	count=0;
-            	loop=0;
-            	controller.removeListener(listener);
-            }
-            
-            //*/
-        }
+        	while (loop == 1){
+        		Frame frame = controller.frame();
+        		HandList hands = frame.hands();
+	            PointableList pointables = frame.pointables();
+	            FingerList fingers = frame.fingers();
+	            ToolList tools = frame.tools();
+	            delay();
+	            /*
+	              System.out.println(pointables.get(0).direction().toString() + " - "
+	            			     + pointables.get(1).direction().toString() + " - " +
+	            			       pointables.get(2).direction().toString() + " - " +
+	            			       pointables.get(3).direction().toString() + " - " +
+	            			       pointables.get(4).direction().toString());
+	            */
+	            
+	            int j = 0;
+	            float[] userHandDirections = new float[15];
+	            for (int i = 0; i < 5; i++)
+	            {
+	        		userHandDirections[j] = pointables.get(i).direction().getX();
+	        		userHandDirections[j+1] = pointables.get(i).direction().getY();
+	        		userHandDirections[j+2] = pointables.get(i).direction().getZ();
+	        		j += 3;
+	            }
+	            
+	            float[] sums = new float[16];
+	            
+	            sums[0] = help(userHandDirections, s1);
+	            sums[1] = help(userHandDirections, s2);
+	            sums[2] = help(userHandDirections, s3);
+	            sums[3] = help(userHandDirections, s4);
+	            sums[4] = help(userHandDirections, s5);
+	            sums[5] = help(userHandDirections, s6);
+	            sums[6] = help(userHandDirections, s7);
+	            sums[7] = help(userHandDirections, s8);
+	            sums[8] = help(userHandDirections, s9);
+	            sums[9] = help(userHandDirections, s10);
+	            sums[10] = help(userHandDirections, s12);
+	            sums[11] = help(userHandDirections, s15);
+	            sums[12] = help(userHandDirections, s16);
+	            sums[13] = help(userHandDirections, s17);
+	            sums[14] = help(userHandDirections, s18);
+	            sums[15] = help(userHandDirections, s19);
+	            
+	            int min = getMinArray(sums);
+	            
+	            if(min==0)
+	            	adjust(userHandDirections, s1);
+	            else if(min==1)
+	            	adjust(userHandDirections, s2);
+	            else if(min==2)
+	            	adjust(userHandDirections, s3);
+	            else if(min==3)
+	            	adjust(userHandDirections, s4);
+	            else if(min==4)
+	            	adjust(userHandDirections, s5);
+	            else if(min==5)
+	            	adjust(userHandDirections, s6);
+	            else if(min==6)
+	            	adjust(userHandDirections, s7);
+	            else if(min==7)
+	            	adjust(userHandDirections, s8);
+	            else if(min==8)
+	            	adjust(userHandDirections, s9);
+	            else if(min==9)
+	            	adjust(userHandDirections, s10);
+	            else if(min==11)
+	            	adjust(userHandDirections, s12);
+	            else if(min==12)
+	            	adjust(userHandDirections, s15);
+	            else if(min==13)
+	            	adjust(userHandDirections, s16);
+	            else if(min==14)
+	            	adjust(userHandDirections, s17);
+	            else if(min==15)
+	            	adjust(userHandDirections, s18);
+	            else
+	            	adjust(userHandDirections, s19);
+	            /*
+	            System.out.println("start: " + sums[0]);
+	            System.out.println(sums[1]);
+	            System.out.println(sums[2]);
+	            System.out.println(sums[3]);
+	            System.out.println(sums[4]);
+	            System.out.println(sums[5]);
+	            System.out.println(sums[6]);
+	            System.out.println(sums[7]);
+	            System.out.println(sums[8]);
+	            System.out.println(sums[9]);
+	            System.out.println(sums[10]);
+	            System.out.println(sums[11]);
+	            System.out.println(sums[12]);
+	            System.out.println(sums[13]);
+	            System.out.println(sums[14]);
+	            System.out.println(sums[15]);
+	            System.out.println("THE HAND SIGN MATCHES PATTERN " + min);*/
+	            
+	            Writer writer = null;
+	            try {
+	                writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream("machineLearning.txt"), "utf-8"));
+	                String str ="";
+	                for(int i=0;i<15;i++)
+	                	str+= s1[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s2[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s3[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s4[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s5[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s6[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s7[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s8[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s9[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s10[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s12[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s15[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s16[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s17[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s18[i] + " ";
+	                for(int i=0;i<15;i++)
+	                	str+= s19[i] + " ";
+	                writer.write(str);
+	            } catch (IOException ex) {
+	              // report
+	            } finally {
+	               try {writer.close();} catch (Exception ex) {}
+	            }
+	            
+	            count++;
+	            if(count==5){
+	            	count=0;
+	            	loop=0;
+	            	controller.removeListener(listener);
+	            }
+        	}
         char cont = 'x';
-        while (cont != 'y' && cont != 'n')
-        {
+        while (cont != 'y' && cont != 'n') {
         	Scanner sc = new Scanner(System.in);
         	System.out.println("continue?");
         	cont = sc.next().charAt(0);
         }
-        if (cont == 'y')
-        {
+        if (cont == 'y'){
         	controller.addListener(listener);
         	loop = 1;
         }
-        else
+        else{
         	loop =0;
         	again=false;
+            controller.removeListener(listener);
         }
-        // Remove the sample listener when done
-        controller.removeListener(listener);
 	}
+}
 	
 	private static void delay()
 	{
@@ -297,11 +288,8 @@ public class Main {
 	     } catch (InterruptedException e) {
 	         System.out.println(""+e);
 	     }
-	     while(System.currentTimeMillis() - start < 1000L){}
-	     System.out.println("hi");
-	     
+	     while(System.currentTimeMillis() - start < 1000L){}	     
 	}
-	
 	public static double min(int x, double y){
 		if(x<y)
 			return y;
@@ -370,7 +358,7 @@ public class Main {
 	
 	public static void adjust(float[] user, float[] baseVector){
 		for(int i=0;i<15;i++){
-			if(baseVector[i]==100)
+			if(baseVector[i]==100) //maybe remove this? depends how it goes
 				baseVector[i]=user[i];
 			else
 				baseVector[i]=(baseVector[i]*100+user[i]*25)/125;
