@@ -15,28 +15,22 @@ public class Main {
 	static Controller controller = new Controller();
     static LeapEventListener listener = new LeapEventListener();
 	public static void main(String[] args) {
-        
-		LeapEventListener listener = new LeapEventListener();
-        Controller controller = new Controller();
 
         controller.addListener(listener);
 
         int loop = 1;
-        //> 2000 then LT
-        //b/w 1000^2000 then GT
-        //b/w -1000^-2000 then LT
-        //LT -20000 then GT
-        File file = new File("machineLearning.txt"); //for ex foo.txt
-        float[] s1 = {-8,4,(float) -1003.3,100,(float) -1007.5,100,100,(float) -1007.5,100,100,(float) -1007.5,100,100,(float) -1007.5,100};
+        //Calibrate signs
+        File file = new File("machineLearning.txt");
+        float[] s1 = {-8,4,(float) 3.3,100,(float) 7.5,100,100,(float) 7.5,100,100,(float) 7.5,100,100,(float) 7.5,100};
         float[] s2 = {-4, (float) 8.5, 100,3, (float) 8.5, 100, 3,-9, 100,3,-9,100,0,(float) -9.5,100};
-        float[] s3 = {5, 8, -5, 100,(float) 1008.5,100,100,(float) 1008.5,100,100,2007,100,100,2007,100};
-        float[] s4 = {-2002,-5,100,-2004,-5,100,-2004,-5,100,100,100,100,100,-5,100};
+        float[] s3 = {5, 8, -5, 100,(float) 8.5,100,100,(float) 8.5,100,100,7,100,100,7,100};
+        float[] s4 = {-2,-5,100,-4,-5,100,-4,-5,100,100,100,100,100,-5,100};
         float[] s5 = {-8, 100, 100, (float) -8.8, 100, 100, (float) -7.5, 100, 100, -9, 100, 100, (float) -9.5, 100, 100};
         float[] s6 = {(float) -2.3, 9, 100, 0, 9, 100, 100, 6, 100, 100, -9, 100, 100, -9, 100};
         float[] s7 = {-5, 6, 100, 100, 6, 100, 0, (float) 5.5, 100, 0, -6, (float)-7.5, 0, -6, (float) -7.5};
-        float[] s8 = {(float) 1007.5, 100, 100, (float) 1007.5, 100, 100, (float) 1007.5, 100, 100, (float) 1007.5, 100, 100, (float) 1007.5, 100, 100,};
-        float[] s9 = {100, 100, 100, 100, (float) 2006.5, 100, 100, (float) 2006.5, 100, 100, (float) 2006.5, 100, 100, (float) 2006.5, 100};
-        float[] s10 = {100, (float) 2008.5, 100, (float) 2006.5, 100, 100, (float) 2006.5, 100, 100, (float) 2006.5, 100, 100, (float) 2006.5, 100, 100};
+        float[] s8 = {(float) 7.5, 100, 100, (float) 7.5, 100, 100, (float) 7.5, 100, 100, (float) 7.5, 100, 100, (float) 7.5, 100, 100,};
+        float[] s9 = {100, 100, 100, 100, (float) 6.5, 100, 100, (float) 6.5, 100, 100, (float) 6.5, 100, 100, (float) 6.5, 100};
+        float[] s10 = {100, (float) 8.5, 100, (float) 6.5, 100, 100, (float) 6.5, 100, 100, (float) 6.5, 100, 100, (float) 6.5, 100, 100};
         float[] s12 = {4, 8, 100, 6, 4, 100, 6, 0, -7, (float) -9.5, 100, 100, (float) -8.5, 100, 100};
         float[] s15 = {(float) 8.5, 100, 100, 7, 100, -5, (float) -9.5, 100, 2, (float) -9.5, 100, 2, (float) -9.5, 100, 2};
         float[] s16 = {0, (float) 9.9, 0, 100, -5, 7, 100, -5, 7, 100, -3, (float) 6.5, 100, -2, (float) 6.5};
@@ -44,6 +38,7 @@ public class Main {
         float[] s18 = {8, 100, -3, 8, 2, (float) -4.5, 6, 0, 100, (float) -9.5, 0, 0, -9, 100, 0};
         float[] s19 = {(float) -3.6, (float) -4.2, (float) -8.3, -2, (float) -5.6, -8, -1, -5, -8, 0, -5, -8, 6, -4, -7};
         
+        //Open machineLearned data
         String strPls= "";
             try {
             	BufferedReader br = new BufferedReader(new FileReader("machinelearning.txt"));
@@ -114,6 +109,9 @@ public class Main {
         }
         int count = 0;
         boolean again = true;
+        
+        
+        //Get input from LeapMotion
         while(again){
         	while (loop == 1){
         		Frame frame = controller.frame();
@@ -131,6 +129,8 @@ public class Main {
 	            */
 	            
 	            int j = 0;
+	            
+	            //Assign vectors into matrix
 	            float[] userHandDirections = new float[15];
 	            for (int i = 0; i < 5; i++)
 	            {
@@ -140,27 +140,29 @@ public class Main {
 	        		j += 3;
 	            }
 	            
+	            //Match signs
 	            float[] sums = new float[16];
 	            
-	            sums[0] = help(userHandDirections, s1);
-	            sums[1] = help(userHandDirections, s2);
-	            sums[2] = help(userHandDirections, s3);
-	            sums[3] = help(userHandDirections, s4);
-	            sums[4] = help(userHandDirections, s5);
-	            sums[5] = help(userHandDirections, s6);
-	            sums[6] = help(userHandDirections, s7);
-	            sums[7] = help(userHandDirections, s8);
-	            sums[8] = help(userHandDirections, s9);
-	            sums[9] = help(userHandDirections, s10);
-	            sums[10] = help(userHandDirections, s12);
-	            sums[11] = help(userHandDirections, s15);
-	            sums[12] = help(userHandDirections, s16);
-	            sums[13] = help(userHandDirections, s17);
-	            sums[14] = help(userHandDirections, s18);
-	            sums[15] = help(userHandDirections, s19);
+	            sums[0] = leastSquares(userHandDirections, s1);
+	            sums[1] = leastSquares(userHandDirections, s2);
+	            sums[2] = leastSquares(userHandDirections, s3);
+	            sums[3] = leastSquares(userHandDirections, s4);
+	            sums[4] = leastSquares(userHandDirections, s5);
+	            sums[5] = leastSquares(userHandDirections, s6);
+	            sums[6] = leastSquares(userHandDirections, s7);
+	            sums[7] = leastSquares(userHandDirections, s8);
+	            sums[8] = leastSquares(userHandDirections, s9);
+	            sums[9] = leastSquares(userHandDirections, s10);
+	            sums[10] = leastSquares(userHandDirections, s12);
+	            sums[11] = leastSquares(userHandDirections, s15);
+	            sums[12] = leastSquares(userHandDirections, s16);
+	            sums[13] = leastSquares(userHandDirections, s17);
+	            sums[14] = leastSquares(userHandDirections, s18);
+	            sums[15] = leastSquares(userHandDirections, s19);
 	            
 	            int min = getMinArray(sums);
 	            
+	            //Adjust the calibration to matched sign in machine learning
 	            if(min==0)
 	            	adjust(userHandDirections, s1);
 	            else if(min==1)
@@ -193,24 +195,6 @@ public class Main {
 	            	adjust(userHandDirections, s18);
 	            else
 	            	adjust(userHandDirections, s19);
-	            /*
-	            System.out.println("start: " + sums[0]);
-	            System.out.println(sums[1]);
-	            System.out.println(sums[2]);
-	            System.out.println(sums[3]);
-	            System.out.println(sums[4]);
-	            System.out.println(sums[5]);
-	            System.out.println(sums[6]);
-	            System.out.println(sums[7]);
-	            System.out.println(sums[8]);
-	            System.out.println(sums[9]);
-	            System.out.println(sums[10]);
-	            System.out.println(sums[11]);
-	            System.out.println(sums[12]);
-	            System.out.println(sums[13]);
-	            System.out.println(sums[14]);
-	            System.out.println(sums[15]);
-	            System.out.println("THE HAND SIGN MATCHES PATTERN " + min);*/
 	            
 	            Writer writer = null;
 	            try {
@@ -290,6 +274,7 @@ public class Main {
 	     }
 	     while(System.currentTimeMillis() - start < 1000L){}	     
 	}
+	
 	public static double min(int x, double y){
 		if(x<y)
 			return y;
@@ -297,13 +282,13 @@ public class Main {
 			return (double)x;
 	}
 	
-	//returns min index
+	//returns index of the min
 	public static int getMinArray(float[] x)
 	{
-		float min = 100000000;
+		float min = 200;
 		int index = 0;
 		if (x != null)
-			min = 100000000;
+			min = 200;
 		for (int i = 0; i < x.length; i++)
 		{
 			if (x[i] < min)
@@ -315,7 +300,7 @@ public class Main {
 		return index+1;
 	}
 	
-	public static float help(float[] sign,float[] arr){
+	public static float leastSquares(float[] sign,float[] arr){
 		double sum = 0;
 		int l;
 		for(int i=0;i<15;i++){
@@ -356,14 +341,11 @@ public class Main {
 		return (float) sum;
 	}
 	
+	//adjustment factor for custom calibration
 	public static void adjust(float[] user, float[] baseVector){
 		for(int i=0;i<15;i++){
-			if(baseVector[i]==100) //maybe remove this? depends how it goes
-				baseVector[i]=user[i];
-			else
-				baseVector[i]=(baseVector[i]*100+user[i]*25)/125;
+			if(baseVector[i]!=100)
+				baseVector[i]=(baseVector[i]*100+user[i]*2)/102;
 		}
 	}
 }
-
-

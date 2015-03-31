@@ -4,7 +4,7 @@ import com.leapmotion.leap.*;
 public class LeapEventListener extends Listener{
 
 	public void onFrame (Controller controller){
-        System.out.println("New Frame");
+        //System.out.println("New Frame");
     }
 
     public void onInit (Controller controller){
